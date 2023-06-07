@@ -12,26 +12,35 @@ typedef struct treap{
 
 treap *novoNo(int v, int maxChave);
 treap *inserir(treap *raiz, int v);
+treap *rotacaoDireita(treap *raiz);
+treap *rotacaoEsquerda(treap *raiz);
+treap *balancear(treap *raiz);
 void exibeTreap(treap *raiz, int espaco);
 void destroiTreap(treap *raiz);
 
 int main(){
     treap *arvore = NULL;
 
-    arvore = inserir(arvore, 4);
-    arvore = inserir(arvore, 7);
-    arvore = inserir(arvore, 6);
-    arvore = inserir(arvore, 2);
-    arvore = inserir(arvore, 3);
-    arvore = inserir(arvore, 5);
     arvore = inserir(arvore, 1);
+    arvore = balancear(arvore);
+    arvore = inserir(arvore, 2);
+    arvore = balancear(arvore);
+    arvore = inserir(arvore, 3);
+    arvore = balancear(arvore);
+    arvore = inserir(arvore, 4);
+    arvore = balancear(arvore);
+    arvore = inserir(arvore, 5);
+    arvore = balancear(arvore);
+    arvore = inserir(arvore, 6);
+    arvore = balancear(arvore);
+    arvore = inserir(arvore, 7);
+    arvore = balancear(arvore);
 
     exibeTreap(arvore, 0);
 
     destroiTreap(arvore);
     return 0;
 }
-
 
 treap *novoNo(int v, int maxChave){
     treap *novo = (treap *)malloc(sizeof(treap));
@@ -51,6 +60,24 @@ treap *inserir(treap *raiz, int v){
     else if(v <= raiz->info)
         raiz->esquerda = inserir(raiz->esquerda, v);
     return raiz;
+}
+
+
+
+treap *rotacaoDireita(treap *raiz){
+    treap *filho = raiz->esquerda;
+    raiz->esquerda = filho->direita;
+    filho->direita = raiz;
+
+    return filho;
+}
+
+treap *rotacaoEsquerda(treap *raiz){
+    treap *filho = raiz->direita;
+    raiz->direita = filho->esquerda;
+    filho->esquerda = raiz;
+
+    return filho;
 }
 
 void exibeTreap(treap *raiz, int espaco){
